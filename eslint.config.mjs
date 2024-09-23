@@ -39,13 +39,13 @@ const sourceFilePaths = {
 
 /** @type {Pick<TSESLintConfig, "name" | "ignores">} */
 const ignoreTSESConfig = {
-  name: "@oss-blog/ignores/base",
+  name: "@next-auth-sns/ignores/base",
   ignores: ["**/.next", "**/node_modules", "**/pnpm-lock.yaml"],
 }
 
 /** @type {Pick<TSESLintConfig, "name" | "languageOptions">} */
 const languageOptionTSESConfig = {
-  name: "@oss-blog/language-options/base",
+  name: "@next-auth-sns/language-options/base",
   languageOptions: {
     parser: tseslintParser,
     parserOptions: {
@@ -78,7 +78,7 @@ const allSourceFileExtensions = [
 
 /** @type {Pick<TSESLintConfig, "name" | "files" | "plugins" | "rules" | "settings" | "ignores">} */
 const importTSESConfig = {
-  name: "@oss-blog/import/base",
+  name: "@next-auth-sns/import/base",
   files: sourceFilePaths.all,
   plugins: {
     import: fixupPluginRules(pluginImport),
@@ -118,7 +118,7 @@ const importTSESConfig = {
 
 /** @type {Pick<TSESLintConfig, "name" | "files" | "rules">} */
 const eslintTSESConfig = {
-  name: "@oss-blog/eslint/base",
+  name: "@next-auth-sns/eslint/base",
   files: sourceFilePaths.all,
   rules: {
     ...eslint.configs.recommended.rules,
@@ -128,7 +128,7 @@ const eslintTSESConfig = {
 /** @type {Pick<TSESLintConfig, "name" | "files" | "plugins" | "rules">[]} */
 const typescriptTSESConfigArray = [
   {
-    name: "@oss-blog/typescript/base",
+    name: "@next-auth-sns/typescript/base",
     files: sourceFilePaths.all,
     plugins: {
       "@typescript-eslint": tseslintPlugin,
@@ -161,7 +161,7 @@ const typescriptTSESConfigArray = [
 
   // These rules existed in the `.eslintrc`.
   {
-    name: "@oss-blog/typescript/disabled-in-js",
+    name: "@next-auth-sns/typescript/disabled-in-js",
     files: sourceFilePaths.js,
     plugins: {
       "@typescript-eslint": tseslintPlugin,
@@ -174,7 +174,7 @@ const typescriptTSESConfigArray = [
 
 /** @type {Pick<TSESLintConfig, "name" | "files" | "plugins" | "rules" | "settings">} */
 const reactTSESConfig = {
-  name: "@oss-blog/react/base",
+  name: "@next-auth-sns/react/base",
   files: sourceFilePaths.all,
   plugins: {
     react: pluginReact,
@@ -201,7 +201,7 @@ const reactTSESConfig = {
 
 /** @type {Pick<TSESLintConfig, "name | "files" | "plugins" | "rules">} */
 const reactHooksTSESConfig = {
-  name: "@oss-blog/react-hooks/base",
+  name: "@next-auth-sns/react-hooks/base",
   files: sourceFilePaths.all,
   plugins: {
     "react-hooks": fixupPluginRules(pluginReactHooks),
@@ -213,7 +213,7 @@ const reactHooksTSESConfig = {
 
 /** @type {Pick<TSESLintConfig, "name" | "files" | "plugins" | "rules">} */
 const nextTSESConfig = {
-  name: "@oss-blog/next/base",
+  name: "@next-auth-sns/next/base",
   files: sourceFilePaths.all,
   plugins: {
     "@next/next": fixupPluginRules(pluginNext),
@@ -233,7 +233,7 @@ const nextTSESConfig = {
  * @description Set of `jsx-a11y` rules existed in `eslint-config-next`.
  */
 const jsxA11yTSESConfig = {
-  name: "@oss-blog/jsx-a11y/base",
+  name: "@next-auth-sns/jsx-a11y/base",
   files: sourceFilePaths.all,
   plugins: {
     "jsx-a11y": pluginJsxA11y,
@@ -256,7 +256,7 @@ const jsxA11yTSESConfig = {
 
 /** @type {Pick<TSESLintConfig, "name" | "files" | "plugins" | "rules">} */
 const vitestTSESConfig = {
-  name: "@oss-blog/vitest/base",
+  name: "@next-auth-sns/vitest/base",
   files: ["**/*.test.ts", "**/*.test.tsx"],
   plugins: {
     vitest: fixupPluginRules(pluginVitest),
@@ -268,7 +268,7 @@ const vitestTSESConfig = {
 
 /** @type {Pick<TSESLintConfig, "name" | "files" | "plugins" | "rules">} */
 const testingLibraryTSESConfig = {
-  name: "@oss-blog/testing-library/react/base",
+  name: "@next-auth-sns/testing-library/react/base",
   files: ["**/*.test.ts", "**/*.test.tsx"],
   plugins: {
     "testing-library": fixupPluginRules(pluginTestingLibrary),
@@ -282,7 +282,7 @@ const testingLibraryTSESConfig = {
  * @type {Pick<TSESLintConfig, "name" | "files" | "plugins" | "rules">}
  */
 const prettierTSESConfig = {
-  name: "@oss-blog/prettier/base",
+  name: "@next-auth-sns/prettier/base",
   files: sourceFilePaths.all,
   plugins: {
     react: pluginReact,
