@@ -1,10 +1,13 @@
 "use client"
 
+import type { StackProps } from "@yamada-ui/react"
 import { Center, VStack } from "@yamada-ui/react"
 import type { FC } from "react"
 import { Header } from "./header"
 
-export const Layout: FC = ({ ...rest }) => {
+export type LayoutProps = StackProps
+
+export const Layout: FC<LayoutProps> = ({ ...rest }) => {
   return (
     <>
       <Header />

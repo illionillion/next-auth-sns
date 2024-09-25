@@ -10,6 +10,7 @@ import {
 import { signIn } from "next-auth/react"
 import type { FormEvent } from "react"
 import { useState } from "react"
+import { Layout } from "@/components/layouts"
 
 const Page = () => {
   const [email, setEmail] = useState("")
@@ -33,26 +34,28 @@ const Page = () => {
   }
 
   return (
-    <Container as="form" m="auto" onSubmit={handleSubmit}>
-      <FormControl label="Email">
-        <Input
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-      </FormControl>
-      <FormControl label="Password">
-        <Input
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-      </FormControl>
-      {error && <ErrorMessage>{error}</ErrorMessage>}
-      <Button type="submit">Login</Button>
-    </Container>
+    <Layout>
+      <Container as="form" m="auto" onSubmit={handleSubmit}>
+        <FormControl label="Email">
+          <Input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+        </FormControl>
+        <FormControl label="Password">
+          <Input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+        </FormControl>
+        {error && <ErrorMessage>{error}</ErrorMessage>}
+        <Button type="submit">Login</Button>
+      </Container>
+    </Layout>
   )
 }
 
