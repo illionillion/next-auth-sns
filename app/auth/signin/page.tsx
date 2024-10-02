@@ -20,7 +20,7 @@ const Page = () => {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const result = await signIn("credentials", {
-      redirect: false,
+      redirectTo: "/",
       email,
       password,
     })
