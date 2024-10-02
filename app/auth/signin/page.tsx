@@ -5,8 +5,10 @@ import {
   Container,
   ErrorMessage,
   FormControl,
+  Heading,
   Input,
 } from "@yamada-ui/react"
+import Link from "next/link"
 import { signIn } from "next-auth/react"
 import type { FormEvent } from "react"
 import { useState } from "react"
@@ -36,6 +38,7 @@ const Page = () => {
   return (
     <Layout>
       <Container as="form" m="auto" onSubmit={handleSubmit}>
+        <Heading textAlign="center">サインイン</Heading>
         <FormControl label="Email">
           <Input
             type="email"
@@ -53,7 +56,10 @@ const Page = () => {
           />
         </FormControl>
         {error && <ErrorMessage>{error}</ErrorMessage>}
-        <Button type="submit">Login</Button>
+        <Button type="submit">サインイン</Button>
+        <Button variant="link" as={Link} href="/auth/signup">
+          サインアップ
+        </Button>
       </Container>
     </Layout>
   )
