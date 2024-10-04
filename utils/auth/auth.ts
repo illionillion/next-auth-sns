@@ -2,8 +2,8 @@ import { PrismaAdapter } from "@next-auth/prisma-adapter"
 import type { NextAuthConfig } from "next-auth"
 import NextAuth from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"
-import { comparePassword } from "../password"
 import { prisma } from "../prisma"
+import { authorizeUser } from "./auth-service"
 
 const config: NextAuthConfig = {
   adapter: PrismaAdapter(prisma),
@@ -16,27 +16,7 @@ const config: NextAuthConfig = {
       },
       // `credentials`に型を付与
       async authorize(credentials) {
-        if (!credentials) {
-          throw new Error("Credentials not provided")
-        }
-
-        const user = await prisma.user.findUnique({
-          where: { email: credentials.email as string },
-        })
-
-        if (!user) {
-          throw new Error("No user found with the provided email")
-        }
-
-        const isValidPassword = comparePassword(
-          credentials.password as string,
-          user.password,
-        )
-
-        if (!isValidPassword) {
-          throw new Error("Invalid password")
-        }
-        return user
+        return await authorizeUser(credentials)
       },
     }),
   ],
