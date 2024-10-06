@@ -15,9 +15,7 @@ const config: NextAuthConfig = {
         password: { label: "Password", type: "password" },
       },
       // `credentials`に型を付与
-      async authorize(credentials) {
-        return await authorizeUser(credentials)
-      },
+      authorize: authorizeUser,
     }),
   ],
   session: {
@@ -33,10 +31,10 @@ const config: NextAuthConfig = {
       }
       return token
     },
-    async session({ session }) {
-      // if (session?.user?.id) {
-      //   session.user.id = token.id;
-      // }
+    async session({ session, user }) {
+      if (session?.user?.id) {
+        session.user.id = user.id
+      }
       return session
     },
   },

@@ -10,26 +10,20 @@ import {
 } from "@yamada-ui/react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
-import { signIn } from "next-auth/react"
 import type { FormEvent } from "react"
 import { useState } from "react"
+import { signin } from "@/app/actions/auth/signin"
 import { Layout } from "@/components/layouts"
 
 const Page = () => {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [error, setError] = useState("")
-  console.log(error)
-
   const router = useRouter()
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    const result = await signIn("credentials", {
-      email,
-      password,
-      redirect: false,
-    })
+    const result = await signin({ email, password })
     console.log(result)
 
     if (result?.error) {

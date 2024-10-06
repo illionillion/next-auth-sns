@@ -12,7 +12,8 @@ export async function authorizeUser(
   ) {
     console.log("1")
 
-    throw new Error("Invalid credentials format")
+    return null
+    // throw new Error("Invalid credentials format")
   }
 
   const user = await prisma.user.findUnique({
@@ -22,15 +23,17 @@ export async function authorizeUser(
   if (!user) {
     console.log("2")
 
-    throw new Error("No user found with the provided email")
+    return null
+    // throw new Error("No user found with the provided email")
   }
 
   const isValidPassword = comparePassword(credentials.password, user.password)
 
   if (!isValidPassword) {
-    console.log("3") // ここでエラー出る
+    console.log("3")
 
-    throw new Error("Invalid password")
+    return null
+    // throw new Error("Invalid password")
   }
 
   return user
