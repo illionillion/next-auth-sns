@@ -21,6 +21,7 @@ export async function signin({
     await signIn("credentials", {
       email,
       password,
+      redirectTo: "/",
     })
   } catch (error) {
     if (error instanceof AuthError) {

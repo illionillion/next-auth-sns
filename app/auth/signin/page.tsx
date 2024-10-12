@@ -1,5 +1,6 @@
 "use client"
 
+import { zodResolver } from "@hookform/resolvers/zod"
 import {
   Button,
   Container,
@@ -9,54 +10,54 @@ import {
   Text,
 } from "@yamada-ui/react"
 import Link from "next/link"
-import { useRouter } from "next/navigation"
-import type { FormEvent } from "react"
 import { useState } from "react"
+import { useForm } from "react-hook-form"
 import { signin } from "@/app/actions/auth/signin"
 import { Layout } from "@/components/layouts"
+import type { SigninForm} from "@/schema/auth";
+import { SigninSchema } from "@/schema/auth"
 
 const Page = () => {
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
   const [error, setError] = useState("")
-  const router = useRouter()
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<SigninForm>({
+    resolver: zodResolver(SigninSchema),
+  })
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
+  const onSubmit = async (values: SigninForm) => {
+    setError("")
+    const { email, password } = values
     const result = await signin({ email, password })
-    console.log(result)
-
     if (result?.error) {
       setError(result.error)
-    } else {
-      // ログイン成功後の処理
-      console.log("Logged in successfully")
-      router.push("/")
     }
   }
 
   return (
     <Layout>
-      <Container as="form" m="auto" onSubmit={handleSubmit}>
+      <Container as="form" m="auto" onSubmit={handleSubmit(onSubmit)}>
         <Heading textAlign="center">サインイン</Heading>
-        <FormControl label="Email">
-          <Input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
+        <FormControl
+          label="Email"
+          isInvalid={!!errors.email}
+          errorMessage={errors.email ? errors.email.message : undefined}
+        >
+          <Input type="text" {...register("email")} />
         </FormControl>
-        <FormControl label="Password">
-          <Input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
+        <FormControl
+          label="Password"
+          isInvalid={!!errors.password}
+          errorMessage={errors.password ? errors.password.message : undefined}
+        >
+          <Input type="password" {...register("password")} />
         </FormControl>
-        {error ? <Text colorScheme="danger">{error}</Text> : undefined}
-        <Button type="submit">サインイン</Button>
+        {error ? <Text color="danger">{error}</Text> : undefined}
+        <Button type="submit" isLoading={isSubmitting}>
+          サインイン
+        </Button>
         <Button variant="link" as={Link} href="/auth/signup">
           サインアップ
         </Button>
