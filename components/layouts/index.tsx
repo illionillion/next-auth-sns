@@ -1,5 +1,3 @@
-"use client"
-
 import type { StackProps } from "@yamada-ui/react"
 import { Center, VStack } from "@yamada-ui/react"
 import type { FC } from "react"

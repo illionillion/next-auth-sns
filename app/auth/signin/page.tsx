@@ -14,7 +14,7 @@ import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { signin } from "@/app/actions/auth/signin"
 import { Layout } from "@/components/layouts"
-import type { SigninForm} from "@/schema/auth";
+import type { SigninForm } from "@/schema/auth"
 import { SigninSchema } from "@/schema/auth"
 
 const Page = () => {
@@ -29,8 +29,7 @@ const Page = () => {
 
   const onSubmit = async (values: SigninForm) => {
     setError("")
-    const { email, password } = values
-    const result = await signin({ email, password })
+    const result = await signin(values)
     if (result?.error) {
       setError(result.error)
     }

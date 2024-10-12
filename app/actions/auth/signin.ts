@@ -2,15 +2,18 @@
 
 import { AuthError } from "next-auth"
 import { getUserByEmail } from "@/data/user"
+import type { SigninForm} from "@/schema/auth";
+import { SigninSchema } from "@/schema/auth"
 import { signIn } from "@/utils/auth/auth"
 
-export async function signin({
-  email,
-  password,
-}: {
-  email: string
-  password: string
-}) {
+export async function signin(values: SigninForm) {
+  const validatedFields = SigninSchema.safeParse(values)
+
+  if (!validatedFields.success) {
+    return { error: "Invalid email or password" }
+  }
+
+  const { email, password } = validatedFields.data
   const existingUser = await getUserByEmail(email)
 
   if (!existingUser || !existingUser.email || !existingUser.password) {
