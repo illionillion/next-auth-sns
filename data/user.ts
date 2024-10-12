@@ -8,7 +8,8 @@ export const getUserByEmail = async (email: string) => {
       },
     })
     return user
-  } catch {
+  } catch (error) {
+    console.error("getUserByEmail: ", error)
     return null
   }
 }
@@ -21,7 +22,26 @@ export const getUserById = async (id: string) => {
       },
     })
     return user
-  } catch {
+  } catch (error) {
+    console.error("getUserById: ", error)
     return null
+  }
+}
+
+export const createUser = async (
+  name: string,
+  email: string,
+  password: string,
+) => {
+  try {
+    await prisma.user.create({
+      data: {
+        name,
+        email,
+        password,
+      },
+    })
+  } catch (error) {
+    console.error("createUser: ", error)
   }
 }

@@ -1,73 +1,76 @@
 "use client"
 
+import { zodResolver } from "@hookform/resolvers/zod"
 import {
   Button,
   Container,
-  ErrorMessage,
   FormControl,
   Heading,
   Input,
+  Text,
 } from "@yamada-ui/react"
 import Link from "next/link"
-import type { FormEvent} from "react";
+import { useRouter } from "next/navigation"
 import { useState } from "react"
+import { useForm } from "react-hook-form"
+import { signup } from "@/app/actions/auth/signup"
 import { Layout } from "@/components/layouts"
+import type { SignupForm} from "@/schema/auth";
+import { SignupSchema } from "@/schema/auth"
 
 const Page = () => {
-  const [name, setName] = useState("")
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
+  const router = useRouter()
   const [error, setError] = useState("")
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<SignupForm>({
+    resolver: zodResolver(SignupSchema),
+  })
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    if (!name || !email || !password) {
-      setError("セットされてません")
-      return
+  const onSubmit = async (values: SignupForm) => {
+    setError("")
+    const { success, error } = await signup(values)
+
+    if (error) {
+      setError(error)
     }
-    // const result = await signIn("credentials", {
-    //     redirectTo: "/",
-    //     email,
-    //     password,
-    // })
 
-    // if (result?.error) {
-    //     setError(result.error)
-    // } else {
-    //     // ログイン成功後の処理
-    //     console.log("Logged in successfully")
-    // }
+    if (success) {
+      router.push("/auth/signin")
+    }
   }
+
   return (
     <Layout>
-      <Container as="form" m="auto" onSubmit={handleSubmit}>
+      <Container as="form" m="auto" onSubmit={handleSubmit(onSubmit)}>
         <Heading textAlign="center">サインアップ</Heading>
-        <FormControl label="Name">
-          <Input
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            required
-          />
+        <FormControl
+          label="Name"
+          isInvalid={!!errors.name}
+          errorMessage={errors.name ? errors.name.message : undefined}
+        >
+          <Input type="text" {...register("name")} />
         </FormControl>
-        <FormControl label="Email">
-          <Input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
+        <FormControl
+          label="Email"
+          isInvalid={!!errors.email}
+          errorMessage={errors.email ? errors.email.message : undefined}
+        >
+          <Input type="text" {...register("email")} />
         </FormControl>
-        <FormControl label="Password">
-          <Input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
+        <FormControl
+          label="Password"
+          isInvalid={!!errors.password}
+          errorMessage={errors.password ? errors.password.message : undefined}
+        >
+          <Input type="password" {...register("password")} />
         </FormControl>
-        {error && <ErrorMessage>{error}</ErrorMessage>}
-        <Button type="submit">サインアップ</Button>
+        {error && <Text color="danger">{error}</Text>}
+        <Button type="submit" isLoading={isSubmitting}>
+          サインアップ
+        </Button>
         <Button variant="link" as={Link} href="/auth/signin">
           サインイン
         </Button>
