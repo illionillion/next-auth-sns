@@ -31,9 +31,9 @@ const config: NextAuthConfig = {
       }
       return token
     },
-    async session({ session, user }) {
-      if (session?.user?.id) {
-        session.user.id = user.id
+    async session({ session, token }) {
+      if (token?.id && typeof token.id === "string") {
+        session.user.id = token.id as string
       }
       return session
     },
